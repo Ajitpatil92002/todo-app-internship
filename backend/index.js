@@ -1,5 +1,8 @@
 const express = require("express");
+const cors = require("cors"); // ✅ Import CORS
 const app = express();
+
+app.use(cors()); // ✅ Enable CORS for all routes
 app.use(express.json());
 
 let todos = [
@@ -44,6 +47,6 @@ app.delete("/todos/:id", (req, res) => {
   res.json({ message: "Todo deleted successfully" });
 });
 
-app.listen(3000, () =>
-  console.log("✅ Server running on http://localhost:3000")
+app.listen(8000, () =>
+  console.log("✅ Server running on http://localhost:8000")
 );
