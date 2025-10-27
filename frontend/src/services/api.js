@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.BACKEND_URL || 'http://localhost:8000';
+const API_BASE_URL =
+    process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
 
 async function request(url, options) {
     const response = await fetch(`${API_BASE_URL}${url}`, options);
