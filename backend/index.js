@@ -1,52 +1,66 @@
-const express = require("express");
-const cors = require("cors"); // ✅ Import CORS
-const app = express();
+// server.js (updated)
+const express = require('express');
+const cors = require('cors');
+const { PrismaClient } = require('./generated/prisma');
 
-app.use(cors()); // ✅ Enable CORS for all routes
+const app = express();
+const prisma = new PrismaClient();
+
+app.use(cors());
 app.use(express.json());
 
-let todos = [
-  { id: 1, title: "Learn Node.js", completed: false },
-  { id: 2, title: "Learn Express.js", completed: false },
-];
-
-app.get("/todos", (req, res) => res.json(todos));
-
-app.post("/todos", (req, res) => {
-  const { title, completed } = req.body;
-  if (!title) return res.status(400).json({ error: "Title is required" });
-
-  const newTodo = {
-    id: todos.length + 1,
-    title,
-    completed: completed || false,
-  };
-  todos.push(newTodo);
-  res.status(201).json(newTodo);
+app.get('/todos', async (req, res) => {
+    const todos = await prisma.todo.findMany();
+    res.json(todos);
 });
 
-app.put("/todos/:id", (req, res) => {
-  const { id } = req.params;
-  const { title, completed } = req.body;
-  const todo = todos.find((t) => t.id === parseInt(id));
-  if (!todo) return res.status(404).json({ error: "Todo not found" });
+app.post('/todos', async (req, res) => {
+    const { title, completed } = req.body;
+    if (!title) return res.status(400).json({ error: 'Title is required' });
 
-  if (title) todo.title = title;
-  if (completed !== undefined) todo.completed = completed;
-  res.json(todo);
+    const newTodo = await prisma.todo.create({
+        data: { title, completed: completed || false },
+    });
+    res.status(201).json(newTodo);
 });
 
-app.get("/todos/:id", (req, res) => {
-  const todo = todos.find((t) => t.id === parseInt(req.params.id));
-  if (!todo) return res.status(404).json({ error: "Todo not found" });
-  res.json(todo);
+app.put('/todos/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, completed } = req.body;
+    try {
+        const todo = await prisma.todo.update({
+            where: { id: parseInt(id) },
+            data: { title, completed },
+        });
+        res.json(todo);
+    } catch (error) {
+        res.status(404).json({ error: 'Todo not found' });
+    }
 });
 
-app.delete("/todos/:id", (req, res) => {
-  todos = todos.filter((t) => t.id !== parseInt(req.params.id));
-  res.json({ message: "Todo deleted successfully" });
+app.get('/todos/:id', async (req, res) => {
+    try {
+        const todo = await prisma.todo.findUnique({
+            where: { id: parseInt(req.params.id) },
+        });
+        if (!todo) return res.status(404).json({ error: 'Todo not found' });
+        res.json(todo);
+    } catch (error) {
+        res.status(404).json({ error: 'Todo not found' });
+    }
+});
+
+app.delete('/todos/:id', async (req, res) => {
+    try {
+        await prisma.todo.delete({
+            where: { id: parseInt(req.params.id) },
+        });
+        res.json({ message: 'Todo deleted successfully' });
+    } catch (error) {
+        res.status(404).json({ error: 'Todo not found' });
+    }
 });
 
 app.listen(8000, () =>
-  console.log("✅ Server running on http://localhost:8000")
+    console.log('✅ Server running on http://localhost:8000')
 );
