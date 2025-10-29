@@ -1,8 +1,8 @@
-
 ### STEP 1
+
 ```bash
 mkdir backend && mkdir frontend
-````
+```
 
 ### STEP 2
 
@@ -65,6 +65,11 @@ npm i @prisma/client
 ```bash
 npm run dev
 ```
+
+npm install better-auth
+npx @better-auth/cli generate
+npx prisma generate
+npx prisma db push
 
 ---
 
