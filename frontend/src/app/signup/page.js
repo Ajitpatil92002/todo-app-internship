@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 export default function SignUpPage() {
     const router = useRouter();
-    const { data: session, isLoading } = authClient.useSession();
+    const { data: session, isPending } = authClient.useSession();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,10 +18,10 @@ export default function SignUpPage() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (!isLoading && session) {
+        if (!isPending && session) {
             router.replace('/');
         }
-    }, [session, isLoading, router]);
+    }, [session, isPending, router]);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -47,7 +47,7 @@ export default function SignUpPage() {
         );
     };
 
-    if (isLoading || session) return <LoadingSpinner />;
+    if (isPending || session) return <LoadingSpinner />;
 
     return (
         <>

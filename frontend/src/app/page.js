@@ -12,7 +12,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 const App = () => {
     const router = useRouter();
-    const { isLoading, data: session } = authClient.useSession();
+    const { isPending, data: session } = authClient.useSession();
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -34,10 +34,10 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (!isLoading && session) {
+        if (!isPending && session) {
             fetchTodos();
         }
-    }, [fetchTodos, isLoading, session]);
+    }, [fetchTodos, isPending, session]);
 
     const handleAddTodo = useCallback(async title => {
         try {
@@ -91,7 +91,7 @@ const App = () => {
         }
     };
 
-    if (isLoading) return <LoadingSpinner />;
+    if (isPending) return <LoadingSpinner />;
 
     if (!session)
         return (
