@@ -1,3 +1,66 @@
+
+# Full Project Setup
+
+## 1. Navigate to Backend and Frontend
+
+```bash
+cd backend
+cd frontend
+````
+
+---
+
+## 2. Install Dependencies
+
+Run the following command **in both** `frontend` and `backend` directories:
+
+```bash
+npm i
+```
+
+---
+
+## 3. Prisma Setup (in Backend)
+
+Run these commands in the **backend** directory:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+---
+
+## 4. Create `.env` in Backend
+
+Inside the `backend` folder, create a `.env` file and add the following:
+
+```env
+DATABASE_URL=""
+BETTER_AUTH_SECRET=8wGWMXBMLnyrX6DjKymSl4WenIziFkUx
+BETTER_AUTH_URL=http://localhost:8000
+CORS_ORIGIN=http://localhost:3000
+```
+
+> ⚠️ Replace `DATABASE_URL` with your actual database connection string.
+
+---
+
+## 5. Run the Development Servers
+
+Start both servers with:
+
+```bash
+npm run dev
+```
+
+* Run this inside the **backend** folder
+* Run this inside the **frontend** folder
+
+
+-------------------------------------------------------------------------------------
+### Don't follow this
+
 ### STEP 1
 
 Create separate folders for backend and frontend to organize server-side and client-side code.
