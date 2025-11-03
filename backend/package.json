@@ -1,23 +1,15 @@
 {
-    "name": "backend",
-    "version": "1.0.0",
-    "main": "index.js",
-    "scripts": {
-        "dev": "nodemon index.js"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": "",
-    "dependencies": {
-        "@prisma/client": "^6.18.0",
-        "better-auth": "^1.3.34",
-        "cors": "^2.8.5",
-        "dotenv": "^17.2.3",
-        "express": "^5.1.0",
-        "nodemon": "^3.1.10"
-    },
-    "devDependencies": {
-        "prisma": "^6.18.0"
-    }
+  "name": "internship-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "better-auth": "^X.Y.Z",
+    "prisma": "^X.Y.Z"
+  }
 }
